@@ -1,8 +1,8 @@
 # Maintainer: Wilhelm Schuster <aur [aT] rot13 dot io>
 _pkgname=moonraker
 pkgname="${_pkgname}-git"
-pkgver=r2125.f735c04
-pkgrel=2
+pkgver=0.9.2.r6.gf735c04
+pkgrel=1
 pkgdesc="HTTP frontend for Klipper 3D printer firmware"
 arch=(any)
 url="https://github.com/Arksine/moonraker"
@@ -27,6 +27,7 @@ makedepends=(git python-build python-installer python-wheel python-pdm)
 optdepends=("polkit: enable service and machine control through moonraker"
             "apprise: enables the [notifier] module for sending notifications"
             "python-preprocess-cancellation: enables exclude object processing"
+            "python-libcamera: enables webcam detection"
             "python-ldap3: [authorization] using LDAP"
             "python-msgspec: optional speedup"
             "python-uvloop: optional speedup"
@@ -43,14 +44,14 @@ sha256sums=('SKIP'
             'c9ab1efe9e225fddaaa20b82ff33d9b00c7e7fffe06d0a27502c17d5484131fc'
             '5611f1a48bb18d0d95a31eaead4f59d84c0ae5e3c407f3488770e2236b97c3bf'
             'cef040e973a9bb697659d1506a37a5f829551d5cc96e3f81ff588d5bd67cf1d0'
-            '549309fd129c8c665a5aed2d4229c20e5a9927f4fbdc937e0982db4785b9ee0d'
+            '96275f40a9627f9069fa0fd7a84d17f08de47d49ae66a666c59b9448cc99de67'
             '5106762365d6275a514897f5a6b42b2b08cbe941732670ac031d4f842679832b'
             'b6c35114ab2886acbd9168bb4588c86d3baea91ab38eda67b5ef38327cd7b11f')
 
 pkgver() {
   cd "$srcdir/$_pkgname"
 
-  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+  git describe --long --abbrev=7 | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 build() {
