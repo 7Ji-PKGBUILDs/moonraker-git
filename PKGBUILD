@@ -2,7 +2,7 @@
 _pkgname=moonraker
 pkgname="${_pkgname}-git"
 pkgver=r2125.f735c04
-pkgrel=1
+pkgrel=2
 pkgdesc="HTTP frontend for Klipper 3D printer firmware"
 arch=(any)
 url="https://github.com/Arksine/moonraker"
@@ -82,8 +82,5 @@ package() {
   install -Dm644 "$srcdir/sysusers.conf" "$pkgdir/usr/lib/sysusers.d/moonraker.conf"
   install -Dm644 "$srcdir/tmpfiles.conf" "$pkgdir/usr/lib/tmpfiles.d/moonraker.conf"
   install -Dm644 "$srcdir/moonraker-klipper.cfg" "$pkgdir/usr/share/doc/moonraker/moonraker-klipper.cfg"
-
-  # match directory owner/group and mode from [extra]/polkit
-  install -d -o root -g 102 -m 0750 "$pkgdir"/usr/share/polkit-1/rules.d
   install -Dm644 "$srcdir/moonraker.rules" "$pkgdir/usr/share/polkit-1/rules.d/moonraker.rules"
 }
