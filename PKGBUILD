@@ -2,7 +2,7 @@
 _pkgname=moonraker
 pkgname="${_pkgname}-git"
 pkgver=0.9.2.r6.gf735c04
-pkgrel=1
+pkgrel=2
 pkgdesc="HTTP frontend for Klipper 3D printer firmware"
 arch=(any)
 url="https://github.com/Arksine/moonraker"
@@ -41,7 +41,7 @@ source=('git+https://github.com/Arksine/moonraker.git#branch=master' 'moonraker.
 sha256sums=('SKIP'
             'b118f346ec57228add79b9c37555adc5dbae4cb6de0e39659912376b5ad2e932'
             '16ac5116ff18e67b7334cf9baf4c404734aede0b1d56d5bed8bde90fbd926e8c'
-            'c9ab1efe9e225fddaaa20b82ff33d9b00c7e7fffe06d0a27502c17d5484131fc'
+            '81d5446b7ca6be66b6b0fae1fd2492a1b5ef035236fc8a4e58ebed65eaa3f92a'
             '5611f1a48bb18d0d95a31eaead4f59d84c0ae5e3c407f3488770e2236b97c3bf'
             'cef040e973a9bb697659d1506a37a5f829551d5cc96e3f81ff588d5bd67cf1d0'
             '96275f40a9627f9069fa0fd7a84d17f08de47d49ae66a666c59b9448cc99de67'
@@ -73,9 +73,11 @@ build() {
 package() {
   cd "$srcdir/$_pkgname"
 
-  python -m installer --destdir="${pkgdir}" --prefix="/opt/$_pkgname" dist/*.whl
+  python -m venv --system-site-packages --without-pip "$pkgdir/opt/$_pkgname"
 
-  rm -rf "$pkgdir/opt/$_pkgname/bin" # clean bin/moonraker as it doesn't work with /opt prefix
+  sed -i "s|$pkgdir/opt/$_pkgname|/opt/$_pkgname|" "$pkgdir/opt/$_pkgname"/pyvenv.cfg "${pkgdir}/opt/$_pkgname/bin/"*
+
+  "$pkgdir/opt/$_pkgname/bin/python" -m installer --destdir="${pkgdir}" --prefix="/opt/$_pkgname" dist/*.whl
 
   install -Dm644 "$srcdir/moonraker.conf" "$pkgdir/etc/klipper/moonraker.conf"
   install -Dm644 "$srcdir/moonraker.service" "$pkgdir/usr/lib/systemd/system/moonraker.service"
