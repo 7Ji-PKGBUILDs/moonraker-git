@@ -1,8 +1,8 @@
 # Maintainer: Wilhelm Schuster <aur [aT] rot13 dot io>
 _pkgname=moonraker
 pkgname="${_pkgname}-git"
-pkgver=0.9.2.r6.gf735c04
-pkgrel=2
+pkgver=0.9.3.r0.g71f9e67
+pkgrel=1
 pkgdesc="HTTP frontend for Klipper 3D printer firmware"
 arch=(any)
 url="https://github.com/Arksine/moonraker"
@@ -23,7 +23,7 @@ depends=(klipper
          python-periphery
          curl)
 #checkdepends=("python-pytest>=7.0" python-pytest-asyncio python-pytest-timeout)
-makedepends=(git python-build python-installer python-wheel python-pdm)
+makedepends=(git python-build python-installer python-wheel python-pdm python-pdm-backend)
 optdepends=("polkit: enable service and machine control through moonraker"
             "apprise: enables the [notifier] module for sending notifications"
             "python-preprocess-cancellation: enables exclude object processing"
