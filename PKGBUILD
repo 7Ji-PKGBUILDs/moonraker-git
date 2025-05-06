@@ -52,7 +52,7 @@ sha256sums=('SKIP'
 prepare() {
   cd "$srcdir/$_pkgname"
 
-  sed -i 's/"pdm-backend==2.3.3"/"pdm-backend"/' pyproject.toml
+  sed -i 's/"pdm-backend[^"]*"/"pdm-backend"/' pyproject.toml
 }
 
 pkgver() {
